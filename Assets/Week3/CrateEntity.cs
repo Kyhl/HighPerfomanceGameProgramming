@@ -1,19 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using Unity.Entities;
-using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
-public partial struct CrateEntity : ISystem
+namespace Week3
 {
-    // Start is called before the first frame update
-    void Start()
+    public partial struct CrateEntity : ISystem
     {
-        
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            Console.WriteLine("Hi");
+            Debug.WriteLine("Hi but in debug");
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
         
+        }
     }
 }
