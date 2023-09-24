@@ -34,19 +34,13 @@ namespace Week3
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            Console.WriteLine("Hi");
-            Debug.WriteLine("Hi but in debug");
             foreach (var (pos, move) in SystemAPI.Query<RefRW<PositionData>, RefRO<MovementData>>())
             {
                 pos.ValueRW.position.y = math.sin(((float)SystemAPI.Time.ElapsedTime * move.ValueRO.speed))*move.ValueRO.amplitude;
-                Console.WriteLine("Hi");
-                Debug.WriteLine("Hi but in debug");
             }
             foreach (var (pos, move) in SystemAPI.Query<RefRW<LocalTransform>, RefRO<MovementData>>())
             {
                 pos.ValueRW.Position.y = math.sin(((float)SystemAPI.Time.ElapsedTime * move.ValueRO.speed))*move.ValueRO.amplitude;
-                Console.WriteLine("Hi");
-                Debug.WriteLine("Hi but in debug");
             }
         }
     }
