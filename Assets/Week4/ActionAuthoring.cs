@@ -9,6 +9,8 @@ namespace Week4
 
         public bool BallMovement;
 
+        public bool WinZone;
+
         class Baker : Baker<MainAuthoring>
         {
             public override void Bake(MainAuthoring authoring)
@@ -17,6 +19,7 @@ namespace Week4
             
                 if (authoring.PlayerCamera) AddComponent<PlayerCamera>(entity);
                 if (authoring.BallMovement) AddComponent<BallMovement>(entity);
+                if (authoring.WinZone) AddComponent<WinZone>(entity);
             }
         }
     }
@@ -24,7 +27,10 @@ namespace Week4
     public struct PlayerCamera : IComponentData
     {
     }
-    public struct BallMovement : IComponentData
+    public struct BallMovement : IComponentData, IEnableableComponent
+    {
+    }
+    public struct WinZone : IComponentData
     {
     }
 }

@@ -6,7 +6,7 @@ namespace Week4
 {
     public class BallAuthoring : MonoBehaviour
     {
-        // Start is called before the first frame update
+        
 
         class Baker : Baker<BallAuthoring>
         {
@@ -23,7 +23,6 @@ namespace Week4
         }
     }
 
-    // A tag component to identify the tank entities.
     public struct Ball : IComponentData
     {
         public float speed;
