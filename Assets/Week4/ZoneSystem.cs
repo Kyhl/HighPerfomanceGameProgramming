@@ -47,11 +47,14 @@ namespace Week4
                 count++;
             }
 
-            if (count == 0) return;
-            var ecb = new EntityCommandBuffer(Allocator.Temp);
-            var ball = new NativeArray<Entity>(1, Allocator.Temp);
-            ecb.Instantiate(config.ballPrefab, ball);
-            ecb.Playback(state.EntityManager);
+            if (count == 0)
+            {
+                var ecb = new EntityCommandBuffer(Allocator.Temp);
+                var ball = new NativeArray<Entity>(1, Allocator.Temp);
+                ecb.Instantiate(config.ballPrefab, ball);
+                ecb.Playback(state.EntityManager);
+            }
+
             var safeZoneJob = new SafeZoneJob
             {
                 SquaredRadius = radius * radius
@@ -68,10 +71,11 @@ namespace Week4
         public float SquaredRadius;
 
         // Because we want the global position of a child entity, we read LocalToWorld instead of LocalTransform.
-        void Execute(in LocalToWorld transformMatrix, EnabledRefRW<BallMovement> movementState)
+        void Execute(ref LocalTransform transform, EnabledRefRW<BallMovement> movementState,in LocalToWorld transformMatrix)
         {
-            movementState.ValueRW = math.lengthsq(transformMatrix.Position) > SquaredRadius;
-            
+            var check = math.lengthsq(transformMatrix.Position) > SquaredRadius;
+            movementState.ValueRW = check;
+            //if(!check)transform.Position.x= 7.00f;
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Week4
         public bool BallMovement;
 
         public bool WinZone;
+        
+        public bool Spawner;
 
         class Baker : Baker<MainAuthoring>
         {
@@ -20,6 +22,7 @@ namespace Week4
                 if (authoring.PlayerCamera) AddComponent<PlayerCamera>(entity);
                 if (authoring.BallMovement) AddComponent<BallMovement>(entity);
                 if (authoring.WinZone) AddComponent<WinZone>(entity);
+                if(authoring.Spawner) AddComponent<Spawner>(entity);
             }
         }
     }
@@ -32,5 +35,10 @@ namespace Week4
     }
     public struct WinZone : IComponentData
     {
+    }
+
+    public struct Spawner : IComponentData
+    {
+        
     }
 }
