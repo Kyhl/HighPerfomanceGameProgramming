@@ -60,6 +60,12 @@ namespace Week4
                 SquaredRadius = radius * radius
             };
             safeZoneJob.ScheduleParallel();
+            // var safeZoneJobHandle = safeZoneJob.Schedule(state.Dependency);
+
+            // var sZJ2 = new TestJob();
+            // var jobhandle2 = sZJ2.Schedule(safeZoneJobHandle);
+            //
+            // state.Dependency = jobhandle2;
         }
     }
 
@@ -75,7 +81,20 @@ namespace Week4
         {
             var check = math.lengthsq(transformMatrix.Position) > SquaredRadius;
             movementState.ValueRW = check;
-            //if(!check)transform.Position.x= 7.00f;
+            if(!check)transform.Position.x= 7.00f;
+        }
+    }
+    [WithAll(typeof(Ball))]
+    [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)]
+    [BurstCompile]
+    public partial struct TestJob : IJobEntity
+    {
+
+        // Because we want the global position of a child entity, we read LocalToWorld instead of LocalTransform.
+        void Execute(ref LocalTransform transform)
+        {
+
+            transform.Position.x -= 0.005f;
         }
     }
 }
