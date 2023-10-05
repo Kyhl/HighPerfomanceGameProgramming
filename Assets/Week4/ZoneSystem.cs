@@ -41,11 +41,8 @@ namespace Week4
             
             
             var count = 0;
-            foreach (var (transform, ballData) in SystemAPI.Query<RefRO<LocalTransform>, RefRO<Ball>>()
-                         .WithAll<BallMovement>())
-            {
-                count++;
-            }
+
+            count = state.GetEntityQuery((typeof(BallMovement))).CalculateEntityCount();
 
             if (count == 0)
             {

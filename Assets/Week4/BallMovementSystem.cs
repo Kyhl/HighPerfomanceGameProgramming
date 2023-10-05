@@ -24,34 +24,54 @@ namespace Week4
         public void OnUpdate(ref SystemState state)
         {
             var dt = SystemAPI.Time.DeltaTime;
-            
-            
-            
-            
-            foreach (var (transform, ballData) in SystemAPI.Query<RefRW<LocalTransform>, RefRO<Ball>>().WithAll<BallMovement>())
+
+
+
+            var job = new BallMovementJob()
             {
-                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-                {
-                    transform.ValueRW.Position.z += (dt * ballData.ValueRO.speed) * ballData.ValueRO.amp;
-                }
+                dt = dt,
+                moveUp = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow),
+                moveDown = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow),
+                moveLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow),
+                moveRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)
+                
+            };
+            job.Schedule();
+        }
+    }
+    [WithAll(typeof(BallMovement))]
+    [BurstCompile]
+    public partial struct BallMovementJob : IJobEntity
+    {
+        public float dt;
+        
+        //key inputs
+        public bool moveUp;
+        public bool moveDown;
+        public bool moveLeft;
+        public bool moveRight;
 
-                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-                {
-                    transform.ValueRW.Position.x += (dt * ballData.ValueRO.speed) * ballData.ValueRO.amp;
-                }
-
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-                {
-                    transform.ValueRW.Position.x -= (dt * ballData.ValueRO.speed) * ballData.ValueRO.amp;
-                }
-
-                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-                {
-                    transform.ValueRW.Position.z -= (dt * ballData.ValueRO.speed) * ballData.ValueRO.amp;
-                }
+        void Execute(ref LocalTransform transform, in Ball ballData)
+        {
+            if (moveUp)
+            {
+                transform.Position.z += (dt * ballData.speed) * ballData.amp;
             }
-            
 
+            if (moveRight)
+            {
+                transform.Position.x += (dt * ballData.speed) * ballData.amp;
+            }
+
+            if (moveLeft)
+            {
+                transform.Position.x -= (dt * ballData.speed) * ballData.amp;
+            }
+
+            if (moveDown)
+            {
+                transform.Position.z -= (dt * ballData.speed) * ballData.amp;
+            }
         }
     }
 }
